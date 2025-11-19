@@ -2,9 +2,24 @@
 // Napisz funkcję, która używa `reduce` do pogrupowania obiektów według dwóch właściwości (zagnieżdżone grupowanie).
 
 function nestedGroupBy(array, firstKey, secondKey) {
-  // TODO: Uzupełnij implementację używając reduce
-  // Najpierw grupuj po firstKey, potem po secondKey
-  return array.reduce(/* ... */);
+  return array.reduce((acc, curr) => {
+    const outerKey = curr[firstKey];
+
+    const innerKey = curr[secondKey];
+
+    if (acc[outerKey]) {
+      if (acc[outerKey][innerKey]) {
+        acc[outerKey][innerKey].push(curr);
+      } else {
+        acc[outerKey][innerKey] = [curr];
+      }
+    } else {
+      acc[outerKey] = {
+        [innerKey]: [curr],
+      };
+    }
+    return acc;
+  }, {});
 }
 
 // Testy
@@ -27,5 +42,7 @@ const expected = {
 };
 console.log("Wynik:", JSON.stringify(result, null, 2));
 console.log("Oczekiwany:", JSON.stringify(expected, null, 2));
-console.log("Test:", JSON.stringify(result) === JSON.stringify(expected) ? "✅ PASS" : "❌ FAIL");
-
+console.log(
+  "Test:",
+  JSON.stringify(result) === JSON.stringify(expected) ? "✅ PASS" : "❌ FAIL"
+);
