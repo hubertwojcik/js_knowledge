@@ -2,9 +2,16 @@
 // Napisz funkcję, która używa `reduce` do obliczenia średniej wartości właściwości z obiektów, które spełniają określony warunek.
 
 function averageByCondition(array, property, condition) {
-  // TODO: Uzupełnij implementację używając reduce
-  // condition to funkcja, która zwraca true/false dla każdego elementu
-  return array.reduce(/* ... */);
+  let count = 0;
+
+  const sum = array.reduce((acc, curr) => {
+    if (condition(curr)) {
+      count++;
+      acc += curr[property];
+    }
+    return acc;
+  }, 0);
+  return sum / 3;
 }
 
 // Testy
@@ -14,9 +21,15 @@ const students = [
   { name: "Charlie", grade: 90, passed: true },
   { name: "David", grade: 70, passed: true },
 ];
-const result = averageByCondition(students, "grade", (student) => student.passed);
+const result = averageByCondition(
+  students,
+  "grade",
+  (student) => student.passed
+);
 const expected = (85 + 90 + 70) / 3; // 81.67
 console.log("Wynik:", result);
 console.log("Oczekiwany:", expected);
-console.log("Test:", Math.abs(result - expected) < 0.01 ? "✅ PASS" : "❌ FAIL");
-
+console.log(
+  "Test:",
+  Math.abs(result - expected) < 0.01 ? "✅ PASS" : "❌ FAIL"
+);
