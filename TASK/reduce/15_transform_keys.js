@@ -3,7 +3,17 @@
 
 function transformKeys(obj, mapping) {
   // TODO: Uzupełnij implementację używając reduce
-  return Object.entries(obj).reduce(/* ... */);
+  return Object.entries(obj).reduce((acc, curr) => {
+    const [key, value] = curr;
+
+    const mappedKey = mapping[key];
+    if (mappedKey) {
+      acc[mappedKey] = value;
+    } else {
+      acc[key] = value;
+    }
+    return acc;
+  }, {});
 }
 
 // Testy
@@ -13,5 +23,7 @@ const result = transformKeys(obj, mapping);
 const expected = { name: "John", surname: "Doe", age: 30 };
 console.log("Wynik:", result);
 console.log("Oczekiwany:", expected);
-console.log("Test:", JSON.stringify(result) === JSON.stringify(expected) ? "✅ PASS" : "❌ FAIL");
-
+console.log(
+  "Test:",
+  JSON.stringify(result) === JSON.stringify(expected) ? "✅ PASS" : "❌ FAIL"
+);
