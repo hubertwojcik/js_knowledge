@@ -104,7 +104,12 @@ function refactoredAggregatePromotions(
     }
   }
 
-  for (const account of accounts) {
+  const result: Account[] = accounts.map((acc) => ({
+    ...acc,
+    promotionsIds: [...acc.promotionsIds],
+  }));
+
+  for (const account of result) {
     const accountGroups = groupMap.get(account.Id);
     if (!accountGroups) continue;
     for (const accGroups of accountGroups) {
@@ -114,7 +119,7 @@ function refactoredAggregatePromotions(
     }
   }
 
-  for (const account of accounts) {
+  for (const account of result) {
     const accountPromotionsIds = new Set<string>();
     let parentId = account.ParentId;
     while (parentId) {
@@ -125,12 +130,10 @@ function refactoredAggregatePromotions(
       }
       parentId = parent.ParentId;
     }
-    account.promotionsIds = account.promotionsIds.concat([
-      ...accountPromotionsIds,
-    ]);
+    account.promotionsIds = [...account.promotionsIds, ...accountPromotionsIds];
   }
 
-  return accounts;
+  return result;
 }
 
 /**
