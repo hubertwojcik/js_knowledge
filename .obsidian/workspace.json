@@ -171,6 +171,18 @@
   },
   "active": "104bf16ca15e94a1",
   "lastOpenFiles": [
+    "TASK/reduce/24_memory_comparison.js",
+    "TASK/reduce/23_memory_o_n_spread.js",
+    "TASK/reduce/22_memory_o_1_push.js",
+    "TASK/reduce/21_memory_o_n_concat.js",
+    "TASK/reduce/20_complex_transform.js",
+    "TASK/reduce/19_filter_transform.js",
+    "TASK/reduce/18_nested_grouping.js",
+    "TASK/reduce/17_object_accumulator.js",
+    "TASK/reduce/16_aggregate_with_conditions.js",
+    "TASK/reduce/15_transform_keys.js",
+    "TASK/reduce/14_deep_flatten.js",
+    "TASK/reduce_zadania.md",
     "RN/8. rn_bundler.md",
     "RN/7. rn_engine.md",
     "RN/6. rn_senior_note.md",
@@ -190,14 +202,10 @@
     "JS/1. js_engine_notes.md",
     "JS/2. js_table_performance.md",
     "RN/10. rn_bundler.md",
-    "RN",
-    "JS",
     "RN/9. rn_engine.md",
     "RN/8. rn_senior_note.md",
     "RN/7. rn_styling.md",
     "RN/3. react_js_core_notes.md",
-    "RN/6.rn_native_fundaments.md",
-    "RN/5. rn_performance.md",
-    "RN/4. rn_core.md"
+    "RN/6.rn_native_fundaments.md"
   ]
 }
