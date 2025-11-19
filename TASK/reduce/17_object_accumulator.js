@@ -2,9 +2,28 @@
 // Napisz funkcję, która używa `reduce` do przekształcenia tablicy obiektów w jeden obiekt z wieloma agregacjami (suma, średnia, min, max).
 
 function aggregateStats(array, property) {
-  // TODO: Uzupełnij implementację używając reduce
-  // Zwróć obiekt z: total, average, min, max, count
-  return array.reduce(/* ... */);
+  return array.reduce(
+    (acc, curr, index, arr) => {
+      const value = curr[property];
+
+      acc.count++;
+      acc.total += value;
+      acc.min = Math.min(acc.min, value);
+      acc.max = Math.max(value, acc.max);
+
+      if (index === arr.length - 1) {
+        acc.average = acc.total / acc.count;
+      }
+      return acc;
+    },
+    {
+      total: 0,
+      average: 0,
+      min: Infinity,
+      max: -Infinity,
+      count: 0,
+    }
+  );
 }
 
 // Testy
@@ -24,5 +43,7 @@ const expected = {
 };
 console.log("Wynik:", result);
 console.log("Oczekiwany:", expected);
-console.log("Test:", JSON.stringify(result) === JSON.stringify(expected) ? "✅ PASS" : "❌ FAIL");
-
+console.log(
+  "Test:",
+  JSON.stringify(result) === JSON.stringify(expected) ? "✅ PASS" : "❌ FAIL"
+);
