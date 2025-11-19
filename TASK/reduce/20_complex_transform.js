@@ -2,16 +2,55 @@
 // Napisz funkcję, która używa `reduce` do przekształcenia tablicy obiektów w obiekt zawierający wiele różnych agregacji i transformacji jednocześnie.
 
 function complexTransform(employees) {
-  // TODO: Uzupełnij implementację używając reduce
-  // Zwróć obiekt z:
-  // - byDepartment: grupowanie po department
-  // - totalSalary: suma wszystkich pensji
-  // - averageSalary: średnia pensja
-  // - departmentStats: statystyki per department (count, totalSalary, avgSalary)
-  // - seniorEmployees: osoby z years >= 4
-  return employees.reduce(/* ... */);
-}
+  return employees.reduce(
+    (acc, curr, index, array) => {
+      const { department, salary, years } = curr;
 
+      // totalSalary
+      acc.totalSalary += salary;
+
+      // byDepartment
+      if (!acc.byDepartment[department]) {
+        acc.byDepartment[department] = [];
+      }
+      acc.byDepartment[department].push(curr);
+
+      // departmentStats per department
+      if (!acc.departmentStats[department]) {
+        acc.departmentStats[department] = {
+          count: 0,
+          totalSalary: 0,
+          avgSalary: 0,
+        };
+      }
+      acc.departmentStats[department].count += 1;
+      acc.departmentStats[department].totalSalary += salary;
+
+      // seniorEmployees
+      if (years >= 4) {
+        acc.seniorEmployees.push(curr);
+      }
+
+      // rzeczy liczone na końcu
+      if (index === array.length - 1) {
+        acc.averageSalary = acc.totalSalary / array.length;
+
+        Object.values(acc.departmentStats).forEach((stat) => {
+          stat.avgSalary = stat.totalSalary / stat.count;
+        });
+      }
+
+      return acc;
+    },
+    {
+      byDepartment: {},
+      totalSalary: 0,
+      averageSalary: 0,
+      departmentStats: {},
+      seniorEmployees: [],
+    }
+  );
+}
 // Testy
 const employees = [
   { name: "Alice", department: "Engineering", salary: 80000, years: 3 },
@@ -40,4 +79,3 @@ console.log("Testy:", checks.every((c) => c) ? "✅ PASS" : "❌ FAIL");
 checks.forEach((check, i) => {
   console.log(`  Test ${i + 1}:`, check ? "✅" : "❌");
 });
-
