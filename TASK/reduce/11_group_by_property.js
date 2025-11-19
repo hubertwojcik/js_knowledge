@@ -2,8 +2,15 @@
 // Napisz funkcję, która używa `reduce` do pogrupowania tablicy obiektów według wartości określonej właściwości.
 
 function groupByProperty(array, property) {
-  // TODO: Uzupełnij implementację używając reduce
-  return array.reduce(/* ... */);
+  return array.reduce((acc, curr) => {
+    const { age } = curr;
+    if (acc[age]) {
+      acc[age].push(curr);
+    } else {
+      acc[age] = [curr];
+    }
+    return acc;
+  }, {});
 }
 
 // Testy
@@ -26,5 +33,7 @@ const expected = {
 };
 console.log("Wynik:", JSON.stringify(result, null, 2));
 console.log("Oczekiwany:", JSON.stringify(expected, null, 2));
-console.log("Test:", JSON.stringify(result) === JSON.stringify(expected) ? "✅ PASS" : "❌ FAIL");
-
+console.log(
+  "Test:",
+  JSON.stringify(result) === JSON.stringify(expected) ? "✅ PASS" : "❌ FAIL"
+);

@@ -2,8 +2,11 @@
 // Napisz funkcję, która używa `reduce` do przekształcenia obiektu w tablicę par [klucz, wartość].
 
 function objectToArray(obj) {
-  // TODO: Uzupełnij implementację używając reduce
-  return Object.entries(obj).reduce((acc, curr) => {});
+  return Object.entries(obj).reduce((acc, curr) => {
+    const [key, value] = curr;
+    acc.push([key, value]);
+    return acc;
+  }, []);
 }
 
 // Testy
