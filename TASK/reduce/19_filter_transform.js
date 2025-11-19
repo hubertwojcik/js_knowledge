@@ -2,9 +2,17 @@
 // Napisz funkcję, która używa `reduce` do jednoczesnego filtrowania, transformacji i agregacji danych w jednej operacji.
 
 function filterGroupAndSum(array, filterFn, groupKey, sumKey) {
-  // TODO: Uzupełnij implementację używając reduce
-  // Filtruj elementy, pogrupuj po groupKey i zsumuj wartości sumKey
-  return array.reduce(/* ... */);
+  return array.reduce((acc, curr) => {
+    if (filterFn(curr)) {
+      if (acc[curr[groupKey]]) {
+        acc[curr[groupKey]] += curr[sumKey];
+      } else {
+        acc[curr[groupKey]] = curr[sumKey];
+      }
+    }
+
+    return acc;
+  }, {});
 }
 
 // Testy
@@ -24,5 +32,7 @@ const result = filterGroupAndSum(
 const expected = { food: 500, transport: 150 };
 console.log("Wynik:", result);
 console.log("Oczekiwany:", expected);
-console.log("Test:", JSON.stringify(result) === JSON.stringify(expected) ? "✅ PASS" : "❌ FAIL");
-
+console.log(
+  "Test:",
+  JSON.stringify(result) === JSON.stringify(expected) ? "✅ PASS" : "❌ FAIL"
+);
