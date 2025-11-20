@@ -136,6 +136,32 @@ function refactoredAggregatePromotions(
   return result;
 }
 
+function upgradedRefactoredAggregatePromotions(
+  accounts: Account[],
+  accountGroups: AccountGroup[]
+): Account[] {
+  // Szybkie lookupy
+  const accountMap = new Map<string, Account>();
+  for (const account of accounts) {
+    accountMap.set(account.Id, account);
+  }
+  // Filtrujmey tylko wane datowo grupy
+  const validGroups = accountGroups.filter((g) =>
+    dateValid(g.startDate, g.endDate)
+  );
+
+  // Mapa accountId - AccountGroup
+  const groupsByAccount = new Map<string, AccountGroup[]>();
+  for (const group of validGroups) {
+    if (!groupsByAccount.has(group.accountId)) {
+      groupsByAccount.set(group.accountId, []);
+    }
+    groupsByAccount.get(group.accountId)?.push(group);
+  }
+
+  return accounts;
+}
+
 /**
  * Question:
  *
