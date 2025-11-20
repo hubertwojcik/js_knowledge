@@ -33,10 +33,10 @@ interface AccountGroup {
 // Helper Functions
 // ============================================================================
 
-function dateValid(startDate: Date, endDate: Date): boolean {
-  const now = new Date();
-  return now >= startDate && now <= endDate;
-}
+// function dateValid(startDate: Date, endDate: Date): boolean {
+//   const now = new Date();
+//   return now >= startDate && now <= endDate;
+// }
 
 // ============================================================================
 // Legacy Implementation (for reference)
@@ -76,65 +76,65 @@ function legacyAggregatePromotions(
   });
 }
 
-function refactoredAggregatePromotions(
-  accounts: Account[],
-  accountGroups: AccountGroup[]
-): Account[] {
-  const accountMap = new Map<string, Account>();
-  for (const account of accounts) {
-    accountMap.set(account.Id, account);
-  }
+// function refactoredAggregatePromotions(
+//   accounts: Account[],
+//   accountGroups: AccountGroup[]
+// ): Account[] {
+//   const accountMap = new Map<string, Account>();
+//   for (const account of accounts) {
+//     accountMap.set(account.Id, account);
+//   }
 
-  const filteredAccountGroups: AccountGroup[] = [];
-  for (const accGroup of accountGroups) {
-    if (dateValid(accGroup.startDate, accGroup.endDate)) {
-      filteredAccountGroups.push(accGroup);
-    }
-  }
+//   const filteredAccountGroups: AccountGroup[] = [];
+//   for (const accGroup of accountGroups) {
+//     if (dateValid(accGroup.startDate, accGroup.endDate)) {
+//       filteredAccountGroups.push(accGroup);
+//     }
+//   }
 
-  const groupMap = new Map<string, AccountGroup[]>();
-  for (const accGroup of filteredAccountGroups) {
-    if (groupMap.has(accGroup.accountId)) {
-      const currentGroup = groupMap.get(accGroup.accountId);
-      if (!currentGroup) continue;
-      currentGroup.push(accGroup);
-      groupMap.set(accGroup.accountId, currentGroup);
-    } else {
-      groupMap.set(accGroup.accountId, [accGroup]);
-    }
-  }
+//   const groupMap = new Map<string, AccountGroup[]>();
+//   for (const accGroup of filteredAccountGroups) {
+//     if (groupMap.has(accGroup.accountId)) {
+//       const currentGroup = groupMap.get(accGroup.accountId);
+//       if (!currentGroup) continue;
+//       currentGroup.push(accGroup);
+//       groupMap.set(accGroup.accountId, currentGroup);
+//     } else {
+//       groupMap.set(accGroup.accountId, [accGroup]);
+//     }
+//   }
 
-  const result: Account[] = accounts.map((acc) => ({
-    ...acc,
-    promotionsIds: [...acc.promotionsIds],
-  }));
+//   const result: Account[] = accounts.map((acc) => ({
+//     ...acc,
+//     promotionsIds: [...acc.promotionsIds],
+//   }));
 
-  for (const account of result) {
-    const accountGroups = groupMap.get(account.Id);
-    if (!accountGroups) continue;
-    for (const accGroups of accountGroups) {
-      const acc = accountMap.get(accGroups.accountGroupId);
-      if (!acc) continue;
-      account.promotionsIds.push(...acc.promotionsIds);
-    }
-  }
+//   for (const account of result) {
+//     const accountGroups = groupMap.get(account.Id);
+//     if (!accountGroups) continue;
+//     for (const accGroups of accountGroups) {
+//       const acc = accountMap.get(accGroups.accountGroupId);
+//       if (!acc) continue;
+//       account.promotionsIds.push(...acc.promotionsIds);
+//     }
+//   }
 
-  for (const account of result) {
-    const accountPromotionsIds = new Set<string>();
-    let parentId = account.ParentId;
-    while (parentId) {
-      const parent = accountMap.get(parentId);
-      if (!parent) break;
-      for (const id of parent.promotionsIds) {
-        accountPromotionsIds.add(id);
-      }
-      parentId = parent.ParentId;
-    }
-    account.promotionsIds = [...account.promotionsIds, ...accountPromotionsIds];
-  }
+//   for (const account of result) {
+//     const accountPromotionsIds = new Set<string>();
+//     let parentId = account.ParentId;
+//     while (parentId) {
+//       const parent = accountMap.get(parentId);
+//       if (!parent) break;
+//       for (const id of parent.promotionsIds) {
+//         accountPromotionsIds.add(id);
+//       }
+//       parentId = parent.ParentId;
+//     }
+//     account.promotionsIds = [...account.promotionsIds, ...accountPromotionsIds];
+//   }
 
-  return result;
-}
+//   return result;
+// }
 
 function upgradedRefactoredAggregatePromotions(
   accounts: Account[],
